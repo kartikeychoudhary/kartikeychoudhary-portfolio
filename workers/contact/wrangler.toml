@@ -1,0 +1,16 @@
+name = "portfolio-contact"
+main = "worker.js"
+compatibility_date = "2026-01-01"
+
+[vars]
+# Comma-separated list of origins permitted by CORS.
+ALLOWED_ORIGINS = "http://localhost:5173,https://your-production-domain.example"
+# Gmail inbox that receives inquiries.
+MAIL_TO = "kartikey31choudhary@gmail.com"
+# Verified Resend sender. Use onboarding@resend.dev for testing, or a domain
+# you've verified in the Resend dashboard.
+MAIL_FROM = "onboarding@resend.dev"
+
+# Secrets (set with `wrangler secret put`):
+#   TURNSTILE_SECRET_KEY
+#   RESEND_API_KEY

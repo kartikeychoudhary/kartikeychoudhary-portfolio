@@ -1,0 +1,12 @@
+node_modules
+dist
+.DS_Store
+*.log
+.vite
+.env
+.env.local
+.dev.vars
+.wrangler
+.claude/settings.local.json
+*.zip
+extracted/
