@@ -36,6 +36,7 @@ Portfolio/
 ├── docs/
 │   ├── overview.md                 # high-level architecture
 │   ├── features.md                 # index of features (links to feature/*.md)
+│   ├── security.md                 # secret model, defense-in-depth, CI posture
 │   └── feature/
 │       ├── serverless-contact-form.md
 │       └── deploy-pipeline.md
@@ -83,7 +84,8 @@ live under `site`.
 | Server-side secrets     | Cloudflare Worker env (`wrangler secret put`) | `TURNSTILE_SECRET_KEY`, `RESEND_API_KEY` |
 
 Never commit `.env`. Never put server secrets in `environment.*.js` — those
-files are bundled into the client.
+files are bundled into the client. Full security posture in
+[docs/security.md](docs/security.md).
 
 ## Contact form flow
 

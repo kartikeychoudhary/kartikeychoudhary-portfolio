@@ -62,3 +62,8 @@ via `wrangler secret put`.
 
 See [features.md](features.md) for the catalog of features and links to their
 detailed specs.
+
+## Security
+
+See [security.md](security.md) for the cross-cutting security posture — secret
+management, defense-in-depth layers, CI/CD controls, and rotation procedures.
