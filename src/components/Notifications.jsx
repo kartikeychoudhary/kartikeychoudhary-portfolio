@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Icon from "./Icon.jsx";
 import { NotifyContext } from "./notify.js";
-import env from "@env";
+import { useConfig } from "../config/ConfigContext.jsx";
 
 const ICON_BY_TYPE = {
   success: "check",
@@ -11,7 +11,7 @@ const ICON_BY_TYPE = {
 };
 
 export function NotificationProvider({ children }) {
-  const cfg = env.notifications || {};
+  const cfg = useConfig().notifications || {};
   const pos = cfg.position || "bottom-right";
   const durationMs = cfg.durationMs ?? 4500;
   const maxStack = cfg.maxStack ?? 3;

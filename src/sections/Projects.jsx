@@ -1,8 +1,8 @@
 import Icon from "../components/Icon.jsx";
-import env from "@env";
+import { useConfig } from "../config/ConfigContext.jsx";
 
 export default function Projects() {
-  const { projects } = env;
+  const { projects } = useConfig();
   if (!projects?.enabled) return null;
   const h = projects.heading || {};
 

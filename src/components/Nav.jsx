@@ -1,8 +1,8 @@
 import Icon from "./Icon.jsx";
-import env from "@env";
+import { useConfig } from "../config/ConfigContext.jsx";
 
 export default function Nav() {
-  const { nav, profile, assets } = env;
+  const { nav, profile, assets } = useConfig();
   if (!nav?.enabled) return null;
 
   const initial = (profile.name || "K").trim().charAt(0).toUpperCase();

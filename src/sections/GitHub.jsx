@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import Icon from "../components/Icon.jsx";
-import env from "@env";
+import { useConfig } from "../config/ConfigContext.jsx";
 
 function seededRand(seed) {
   let s = seed;
@@ -27,7 +27,7 @@ function buildGrid(seed) {
 }
 
 export default function GitHub() {
-  const { github } = env;
+  const { github } = useConfig();
   const grid = useMemo(() => buildGrid(github?.contrib?.seed ?? 42), [github]);
   if (!github?.enabled) return null;
   const h = github.heading || {};

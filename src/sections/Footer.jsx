@@ -1,8 +1,8 @@
 import Icon from "../components/Icon.jsx";
-import env from "@env";
+import { useConfig } from "../config/ConfigContext.jsx";
 
 export default function Footer() {
-  const { footer, profile } = env;
+  const { footer, profile } = useConfig();
   if (!footer?.enabled) return null;
   const s = profile.social || {};
 
