@@ -18,6 +18,7 @@ jobs:
     name: Detect changed paths
     runs-on: ubuntu-latest
     outputs:
+      pages: ${{ steps.filter.outputs.pages }}
       worker: ${{ steps.filter.outputs.worker }}
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
@@ -25,11 +26,20 @@ jobs:
         id: filter
         with:
           filters: |
+            pages:
+              - 'src/**'
+              - 'public/**'
+              - 'index.html'
+              - 'vite.config.js'
+              - 'package.json'
+              - 'package-lock.json'
             worker:
               - 'workers/**'
 
   deploy-pages:
     name: Build & deploy Pages
+    needs: changes
+    if: github.event_name == 'workflow_dispatch' || needs.changes.outputs.pages == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
@@ -57,7 +67,7 @@ jobs:
   deploy-worker:
     name: Deploy contact Worker
     needs: changes
-    if: needs.changes.outputs.worker == 'true'
+    if: github.event_name == 'workflow_dispatch' || needs.changes.outputs.worker == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1

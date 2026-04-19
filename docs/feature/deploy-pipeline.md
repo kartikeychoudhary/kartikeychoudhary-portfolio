@@ -16,9 +16,9 @@ Three jobs:
 
 | Job             | When it runs                          | What it does                                     |
 | --------------- | ------------------------------------- | ------------------------------------------------ |
-| `changes`       | Every push to `main`                  | Path-filters to decide if `workers/**` changed.  |
-| `deploy-pages`  | Every push to `main`                  | `npm ci` → `npm run build` → `wrangler pages deploy dist`. |
-| `deploy-worker` | Only when `workers/**` files changed  | `wrangler deploy` in `workers/contact/` and syncs Worker secrets. |
+| `changes`       | Every push to `main`                  | Path-filters to decide which deploys are needed. |
+| `deploy-pages`  | When `src/**`, `public/**`, `index.html`, `vite.config.js`, or `package*.json` changed (or `workflow_dispatch`) | `npm ci` → `npm run build` → `wrangler pages deploy dist`. |
+| `deploy-worker` | When `workers/**` changed (or `workflow_dispatch`) | `wrangler deploy` in `workers/contact/` and syncs Worker secrets. |
 
 No PR previews — only `main` deploys. Manual runs via the Actions tab use
 `workflow_dispatch`.
