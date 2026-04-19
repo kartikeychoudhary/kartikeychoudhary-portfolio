@@ -8,6 +8,10 @@
 //   ALLOWED_ORIGINS   comma-separated list, e.g. "https://example.com,http://localhost:5173"
 //   MAIL_TO           destination inbox
 //   MAIL_FROM         verified Resend sender, e.g. "contact@yourdomain.com"
+//   SITE_URL          canonical site URL shown in the email footer
+//   SITE_NAME         display name shown in the email header
+
+import { renderContactEmail } from "./email.js";
 
 const SITEVERIFY = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 const RESEND_URL = "https://api.resend.com/emails";
@@ -88,13 +92,15 @@ async function verifyTurnstile(token, request, env) {
 }
 
 async function sendEmail({ name, email, subject, message }, env) {
-  const html = `
-    <div style="font-family:system-ui,sans-serif;line-height:1.5;max-width:560px">
-      <h2 style="margin:0 0 12px">Portfolio contact: ${esc(subject)}</h2>
-      <p><strong>From:</strong> ${esc(name)} &lt;${esc(email)}&gt;</p>
-      <hr style="border:none;border-top:1px solid #eee;margin:16px 0" />
-      <div style="white-space:pre-wrap">${esc(message)}</div>
-    </div>`;
+  const rendered = renderContactEmail({
+    name,
+    email,
+    subject,
+    message,
+    sentAt: new Date(),
+    siteUrl: env.SITE_URL || "https://kartikeychoudhary.com",
+    siteName: env.SITE_NAME || "Kartikey Choudhary",
+  });
 
   const res = await fetch(RESEND_URL, {
     method: "POST",
@@ -106,23 +112,15 @@ async function sendEmail({ name, email, subject, message }, env) {
       from: env.MAIL_FROM,
       to: env.MAIL_TO,
       reply_to: email,
-      subject: `Portfolio · ${subject}`,
-      html,
+      subject: rendered.subject,
+      html: rendered.html,
+      text: rendered.text,
     }),
   });
 
   if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    throw new Error(`Resend ${res.status}: ${text.slice(0, 200)}`);
+    const body = await res.text().catch(() => "");
+    throw new Error(`Resend ${res.status}: ${body.slice(0, 200)}`);
   }
   return res.json();
-}
-
-function esc(s) {
-  return String(s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
 }
