@@ -23,22 +23,26 @@ export default function Projects() {
                 className="project-visual"
                 style={{ "--px": `${p.accent?.[0] ?? 30}%`, "--py": `${p.accent?.[1] ?? 30}%` }}
               >
-                <div className="pseudo-ui">
-                  <div className="row">
-                    <div className="bar accent" style={{ width: 60 }}></div>
-                    <div className="bar" style={{ width: 30, flex: 1 }}></div>
+                {p.image ? (
+                  <img className="shot" src={p.image} alt={`${p.name} screenshot`} loading="lazy" decoding="async" />
+                ) : (
+                  <div className="pseudo-ui">
+                    <div className="row">
+                      <div className="bar accent" style={{ width: 60 }}></div>
+                      <div className="bar" style={{ width: 30, flex: 1 }}></div>
+                    </div>
+                    <div className="row">
+                      <div className="bar" style={{ width: 80 }}></div>
+                      <div className="bar" style={{ width: 50 }}></div>
+                      <div className="bar" style={{ width: 35 }}></div>
+                    </div>
+                    <div className="grid-m">
+                      {Array.from({ length: 16 }).map((_, j) => (
+                        <span key={j} className={(j * 7 + i * 3) % 5 === 0 ? "on" : ""}></span>
+                      ))}
+                    </div>
                   </div>
-                  <div className="row">
-                    <div className="bar" style={{ width: 80 }}></div>
-                    <div className="bar" style={{ width: 50 }}></div>
-                    <div className="bar" style={{ width: 35 }}></div>
-                  </div>
-                  <div className="grid-m">
-                    {Array.from({ length: 16 }).map((_, j) => (
-                      <span key={j} className={(j * 7 + i * 3) % 5 === 0 ? "on" : ""}></span>
-                    ))}
-                  </div>
-                </div>
+                )}
               </div>
               <div className="project-body">
                 <div className="meta">

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Icon from "../components/Icon.jsx";
 import Turnstile from "../components/Turnstile.jsx";
-import { useNotify } from "../components/Notifications.jsx";
+import { useNotify } from "../components/notify.js";
 import { submitContact } from "../utils/formSubmit.js";
 import { checkHoneypot, checkMinTime, checkRateLimit, recordSubmission } from "../utils/ddos.js";
 import env from "@env";

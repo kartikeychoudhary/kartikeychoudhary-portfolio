@@ -1,8 +1,7 @@
-import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Icon from "./Icon.jsx";
+import { NotifyContext } from "./notify.js";
 import env from "@env";
-
-const NotifyContext = createContext(null);
 
 const ICON_BY_TYPE = {
   success: "check",
@@ -73,10 +72,4 @@ export function NotificationProvider({ children }) {
       </div>
     </NotifyContext.Provider>
   );
-}
-
-export function useNotify() {
-  const ctx = useContext(NotifyContext);
-  if (!ctx) throw new Error("useNotify must be used inside <NotificationProvider>");
-  return ctx;
 }

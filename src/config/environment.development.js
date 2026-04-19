@@ -21,7 +21,12 @@ export const site = {
 export const assets = {
   favicon: "/assets/favicon.svg",
   resume: "/assets/resume.pdf",
-  portrait: "",
+  portrait: {
+    src: "/assets/avatar-1024.jpg",
+    srcSet:
+      "/assets/avatar-480.jpg 480w, /assets/avatar-768.jpg 768w, /assets/avatar-1024.jpg 1024w",
+    sizes: "(max-width: 960px) 340px, 420px",
+  },
   ogImage: "/assets/og.png",
 };
 
@@ -42,7 +47,7 @@ export const profile = {
   },
   stats: [
     { n: "6", suffix: "+", l: "Years shipping" },
-    { n: "5", suffix: "+", l: "Spot awards" },
+    // { n: "5", suffix: "+", l: "Spot awards" },
     { n: "4", suffix: "",  l: "Companies shipped with" },
   ],
 };
@@ -206,11 +211,42 @@ export const education = {
 };
 
 export const projects = {
-  enabled: false,
+  enabled: true,
   eyebrow: "04 — Selected work",
   heading: { before: "Projects I'm ", serif: "proud", after: " of." },
-  sub: "A handful of systems I designed, built, or led.",
-  items: [],
+  sub: "A handful of systems I designed, built, and shipped end-to-end.",
+  items: [
+    {
+      role: "Solo · Full-stack",
+      year: "2026",
+      name: "Minted",
+      desc: "Personal finance app for tracking income, expenses, and transfers across multiple accounts. Dashboard analytics, recurring transactions, budgets, bulk statement import, and an admin panel.",
+      stack: ["Angular 21", "Spring Boot 3", "Java 17", "MySQL 8", "AG Grid", "Docker"],
+      accent: [25, 35],
+      image: "/assets/projects/minted-1200.jpg",
+      repo: "https://github.com/kartikeychoudhary/minted",
+    },
+    {
+      role: "Solo · Full-stack",
+      year: "2026",
+      name: "Life Gauge",
+      desc: "Upload PDF health reports; Google Gemini extracts structured test data into trends you can track over time. Dashboard with reference-range bars, historical charts per test, and 111+ built-in test definitions.",
+      stack: ["Angular 21", "Node.js", "Express", "MySQL 8", "Google Gemini", "JWT", "Docker"],
+      accent: [70, 30],
+      image: "/assets/projects/life-gauge-1200.jpg",
+      repo: "https://github.com/kartikeychoudhary/life-gauge",
+    },
+    {
+      role: "Solo · Design & build",
+      year: "2026",
+      name: "This site",
+      desc: "Config-driven React portfolio on Cloudflare Pages. Contact form routes through a Cloudflare Worker with Turnstile bot verification and Resend email delivery — defense-in-depth across client guards, token verify, payload caps, and WAF rate limits.",
+      stack: ["React 18", "Vite", "Cloudflare Pages", "Cloudflare Workers", "Turnstile", "Resend"],
+      accent: [45, 60],
+      image: "/assets/projects/portfolio-1200.jpg",
+      repo: "https://github.com/kartikeychoudhary/kartikeychoudhary-portfolio",
+    },
+  ],
 };
 
 export const github = {

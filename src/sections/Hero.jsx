@@ -75,7 +75,15 @@ export default function Hero() {
             <div className="hero-visual">
               <div className="portrait">
                 {assets.portrait ? (
-                  <img src={assets.portrait} alt={profile.name} className="portrait-img" />
+                  <img
+                    src={typeof assets.portrait === "string" ? assets.portrait : assets.portrait.src}
+                    srcSet={typeof assets.portrait === "object" ? assets.portrait.srcSet : undefined}
+                    sizes={typeof assets.portrait === "object" ? assets.portrait.sizes : undefined}
+                    alt={profile.name}
+                    className="portrait-img"
+                    decoding="async"
+                    fetchPriority="high"
+                  />
                 ) : (
                   <div className="silhouette">
                     <svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
