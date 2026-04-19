@@ -16,6 +16,15 @@ import { renderContactEmail } from "./email.js";
 const SITEVERIFY = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 const RESEND_URL = "https://api.resend.com/emails";
 
+const LIMITS = {
+  name: 120,
+  email: 254,      // RFC 5321 max localpart+domain
+  subject: 200,
+  message: 5000,
+  token: 2048,     // Turnstile tokens are ~600 chars; give headroom
+};
+const MAX_BODY_BYTES = 16 * 1024;
+
 export default {
   async fetch(request, env) {
     const origin = request.headers.get("Origin") || "";
@@ -31,9 +40,14 @@ export default {
       });
     }
 
+    const raw = await request.text();
+    if (raw.length > MAX_BODY_BYTES) {
+      return json({ error: "Payload too large" }, 413, allowed);
+    }
+
     let payload;
     try {
-      payload = await request.json();
+      payload = JSON.parse(raw);
     } catch {
       return json({ error: "Invalid JSON" }, 400, allowed);
     }
@@ -41,6 +55,15 @@ export default {
     const { name, email, subject, message, token } = payload || {};
     if (!name || !email || !subject || !message || !token) {
       return json({ error: "Invalid payload" }, 400, allowed);
+    }
+    if (
+      String(name).length > LIMITS.name ||
+      String(email).length > LIMITS.email ||
+      String(subject).length > LIMITS.subject ||
+      String(message).length > LIMITS.message ||
+      String(token).length > LIMITS.token
+    ) {
+      return json({ error: "Field exceeds maximum length" }, 413, allowed);
     }
 
     const verified = await verifyTurnstile(token, request, env);

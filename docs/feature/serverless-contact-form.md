@@ -135,12 +135,82 @@ Copy the deployed URL into `.env` as `VITE_WORKER_URL`, then `npm run build`.
 
 ## Defense in depth
 
-Client-side guards in [src/utils/ddos.js](../../src/utils/ddos.js) still run
-before the submit request:
+Four layers, outermost first. Each stops a different attacker profile.
+
+### 1. Client-side guards (`src/utils/ddos.js`)
+
+Free, cheap, bypassable — meant to filter casual spam before burning Worker invocations.
 
 - **Honeypot** — hidden input; filled = silently rejected.
 - **Min time-to-submit** — blocks instant POSTs.
 - **Per-browser rate limit** — N submissions per window in `localStorage`.
 
-Turnstile is the primary bot filter; these guards catch trivial spam before
-burning Worker invocations.
+### 2. Turnstile token verification (Worker)
+
+Primary bot gate. Every request must present a valid Turnstile token; the Worker verifies against Cloudflare's `siteverify` before dispatching email.
+
+### 3. Worker-side input caps (`worker.js`)
+
+Hard ceilings on payload size to bound resource use even if an attacker brings a valid Turnstile token:
+
+| Check | Limit | Returns |
+| --- | --- | --- |
+| Total request body | 16 KB | `413` |
+| `name` | 120 chars | `413` |
+| `email` | 254 chars (RFC 5321) | `413` |
+| `subject` | 200 chars | `413` |
+| `message` | 5000 chars | `413` |
+| `token` | 2048 chars | `413` |
+
+Tune via the `LIMITS` / `MAX_BODY_BYTES` constants at the top of `worker.js`.
+
+### 4. Cloudflare Rate Limiting Rule (recommended)
+
+Turnstile tokens are effectively unlimited to motivated attackers (paid CAPTCHA solvers, headless browsers). A platform-level rate limit caps the damage — Resend's free tier is 3k emails/month and you don't want a single actor draining it.
+
+**Prerequisite:** the Worker must be routed through a zone you own, not just `*.workers.dev`. Rate Limiting Rules only apply to zones.
+
+#### Step 1 — Route the Worker through your zone
+
+Assuming `kartikeychoudhary.com` is on Cloudflare, add a Worker Route:
+
+Cloudflare dashboard → **Workers & Pages** → `portfolio-contact` → **Settings** → **Triggers** → **Add Custom Domain** → enter e.g. `contact.kartikeychoudhary.com`.
+
+Cloudflare provisions DNS and the cert automatically. The Worker is now reachable at that host.
+
+Update `VITE_WORKER_URL` (GitHub variable) and `ALLOWED_ORIGINS` (wrangler.toml `[vars]`) to the new URL, then redeploy.
+
+#### Step 2 — Create the Rate Limiting Rule
+
+Cloudflare dashboard → select the `kartikeychoudhary.com` zone → **Security** → **WAF** → **Rate limiting rules** → **Create rule**.
+
+| Field | Value |
+| --- | --- |
+| Rule name | `contact-form-throttle` |
+| If incoming requests match | Field: **Hostname** · Operator: `equals` · Value: `contact.kartikeychoudhary.com` |
+| And | Field: **Request Method** · Operator: `equals` · Value: `POST` |
+| When rate exceeds | `10` requests per `1 minute` |
+| Counting characteristic | **IP address** (free plan) |
+| Then | **Block** · Duration: `10 minutes` · Response: `429 Too Many Requests` |
+
+Save & deploy. The free plan includes one rate-limiting rule per zone, which is enough for a single contact-form endpoint.
+
+#### Tuning the thresholds
+
+- Legit users submit once per visit; 10/min/IP is well above normal traffic and well below useful attack volume.
+- If you run the site behind an office/campus NAT, raise the per-IP threshold or counter on a cookie/fingerprint instead.
+- If you're on a paid plan, add a second rule that counts across all IPs toward a zone-wide ceiling (e.g. 100/min) as a cost cap.
+
+#### Verification
+
+```bash
+# Should start returning 429 after the 10th hit within a minute.
+for i in $(seq 1 15); do
+  curl -s -o /dev/null -w "%{http_code}\n" \
+    -X POST https://contact.kartikeychoudhary.com \
+    -H "Content-Type: application/json" \
+    -d '{"name":"x","email":"x@x.x","subject":"x","message":"x","token":"x"}'
+done
+```
+
+The first ~10 requests return `403` (bot verification — expected, the token is bogus), then requests start returning `429` from Cloudflare before even reaching the Worker.
