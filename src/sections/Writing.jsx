@@ -1,8 +1,8 @@
 import Icon from "../components/Icon.jsx";
-import env from "@env";
+import { useConfig } from "../config/ConfigContext.jsx";
 
 export default function Writing() {
-  const { writing } = env;
+  const { writing } = useConfig();
   if (!writing?.enabled) return null;
   const h = writing.heading || {};
 

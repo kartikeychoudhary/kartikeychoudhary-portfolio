@@ -204,21 +204,43 @@ The workflow runs automatically. Follow it under the **Actions** tab.
 
 ## 10. Edit content
 
-All on-screen content lives in two files:
+All on-screen content lives in one file:
 
-- [src/config/environment.development.js](src/config/environment.development.js) — used by `npm run dev`
-- [src/config/environment.production.js](src/config/environment.production.js) — used by `npm run build`
+- [src/config/content.default.json](src/config/content.default.json) — shared by dev and prod.
 
-Every section exports an object with an `enabled` flag plus its own data.
-Flipping `enabled: false` hides the section entirely.
+The env files ([environment.development.js](src/config/environment.development.js)
+and [environment.production.js](src/config/environment.production.js)) import
+the JSON and only add environment-specific bits (`ENV_NAME`, contact-form
+adapter type, endpoints, Turnstile keys).
 
-```js
-export const skills = {
-  enabled: true,
-  eyebrow: "01 — What I work with",
-  heading: { before: "A stack chosen for ", serif: "longevity", after: ", not novelty." },
-  // ...
-};
+### Option A — In-app editor (recommended)
+
+Visit [`/#/editor`](http://localhost:5173/#/editor) while `npm run dev` is
+running (the route is also available on the production build). You get a
+section-by-section form with live preview, **Load JSON** / **Reset** /
+**Download JSON** actions.
+
+Workflow:
+
+1. Edit fields in the form.
+2. Click **Download JSON**.
+3. Replace `src/config/content.default.json` with the downloaded file.
+4. Commit and push — CI rebuilds.
+
+Full spec in [docs/feature/content-editor.md](docs/feature/content-editor.md).
+
+### Option B — Edit the JSON directly
+
+Every section object carries an `enabled` flag (`false` hides it entirely):
+
+```json
+{
+  "skills": {
+    "enabled": true,
+    "eyebrow": "01 — What I work with",
+    "heading": { "before": "A stack chosen for ", "serif": "longevity", "after": ", not novelty." }
+  }
+}
 ```
 
 `heading.serif` renders in an italic serif accent. `hero.lead` supports
@@ -226,36 +248,45 @@ export const skills = {
 
 ### Visual tweaks
 
-Under `site` in `environment.*.js`:
+Under `site` in `content.default.json`:
 
-```js
-export const site = {
-  accent: "teal",                    // teal | lime | violet | amber | emerald | rose
-  texture: "grid",                   // grid | dots | noise | none
-  heroVariant: "split",              // split | terminal | centered
-  timelineLayout: "horizontal-dots", // horizontal-dots | rail-cards | stepper
-};
+```json
+{
+  "site": {
+    "accent": "teal",
+    "texture": "grid",
+    "heroVariant": "split",
+    "timelineLayout": "horizontal-dots"
+  }
+}
 ```
+
+- `accent`: `teal | lime | violet | amber | emerald | rose`
+- `texture`: `grid | dots | noise | none`
+- `heroVariant`: `split | terminal | centered`
+- `timelineLayout`: `horizontal-dots | rail-cards | stepper`
 
 ### Assets
 
-Drop files into `public/assets/` and reference them in `environment.*.js`:
+Drop files into `public/assets/` and reference them in `content.default.json`:
 
-```js
-export const assets = {
-  favicon:  "/assets/favicon.svg",
-  resume:   "/assets/resume.pdf",
-  portrait: "/assets/portrait.jpg",   // "" falls back to an SVG placeholder
-  ogImage:  "/assets/og.png",
-};
+```json
+{
+  "assets": {
+    "favicon":  "/assets/favicon.svg",
+    "resume":   "/assets/resume.pdf",
+    "portrait": { "src": "/assets/avatar-1024.jpg" },
+    "ogImage":  "/assets/og.png"
+  }
+}
 ```
 
 ---
 
 ## 11. Contact form adapters
 
-`contact.form.submission.type` in `environment.*.js` picks how submissions
-are delivered:
+`contact.form.submission.type` in the env JS files (not `content.default.json`)
+picks how submissions are delivered:
 
 | Type        | Behavior                                                                |
 | ----------- | ----------------------------------------------------------------------- |
@@ -284,21 +315,26 @@ Portfolio/
 │   ├── features.md                 # feature index
 │   └── feature/
 │       ├── serverless-contact-form.md
-│       └── deploy-pipeline.md
+│       ├── deploy-pipeline.md
+│       └── content-editor.md
 ├── public/assets/                  # favicon, résumé, portrait, OG image
 ├── src/
 │   ├── main.jsx                    # React entry
-│   ├── App.jsx                     # section composition
+│   ├── App.jsx                     # section composition + #/editor route
 │   ├── config/
+│   │   ├── content.default.json    # shared portfolio content
+│   │   ├── deepMerge.js
+│   │   ├── ConfigContext.jsx       # useConfig() hook
 │   │   ├── environment.development.js
 │   │   └── environment.production.js
 │   ├── components/                 # Icon, Nav, Notifications, Turnstile
 │   ├── sections/                   # Hero, Skills, Experience, …, Contact, Footer
+│   ├── pages/                      # Editor, FieldRenderer, editorState
 │   ├── utils/
 │   │   ├── formSubmit.js           # adapter dispatch
 │   │   ├── ddos.js                 # client-side spam guards
 │   │   └── richText.jsx            # **bold** renderer
-│   └── styles/                     # globals.css + components.css
+│   └── styles/                     # globals.css + components.css + editor.css
 ├── workers/
 │   └── contact/                    # Cloudflare Worker (Turnstile + Resend)
 ├── CLAUDE.md                       # guide for Claude Code

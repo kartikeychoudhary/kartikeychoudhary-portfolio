@@ -7,6 +7,7 @@ Index of shipped and in-flight features. Each entry links to its own spec in
 | -------------------------------- | -------- | --------------------------------------------------------------- |
 | Serverless Contact Form          | Shipped  | [serverless-contact-form.md](feature/serverless-contact-form.md) |
 | Deploy Pipeline (Pages + Worker) | Shipped  | [deploy-pipeline.md](feature/deploy-pipeline.md)                 |
+| Content Editor (`/#/editor`)     | Shipped  | [content-editor.md](feature/content-editor.md)                   |
 
 ## Adding a feature
 

@@ -4,12 +4,12 @@ import Turnstile from "../components/Turnstile.jsx";
 import { useNotify } from "../components/notify.js";
 import { submitContact } from "../utils/formSubmit.js";
 import { checkHoneypot, checkMinTime, checkRateLimit, recordSubmission } from "../utils/ddos.js";
-import env from "@env";
+import { useConfig } from "../config/ConfigContext.jsx";
 
 const ICON_MAP = { email: "mail", map: "map", github: "github", phone: "phone" };
 
 export default function Contact() {
-  const { contact, profile } = env;
+  const { contact, profile } = useConfig();
   const { notify } = useNotify();
   const mountedAt = useRef(Date.now());
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });

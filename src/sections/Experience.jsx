@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Icon from "../components/Icon.jsx";
-import env from "@env";
+import { useConfig } from "../config/ConfigContext.jsx";
 
 function ExpModal({ exp, onClose }) {
   return (
@@ -28,7 +28,7 @@ function ExpModal({ exp, onClose }) {
 }
 
 export default function Experience() {
-  const { experience } = env;
+  const { experience } = useConfig();
   const [active, setActive] = useState(null);
   const scrollRef = useRef(null);
 

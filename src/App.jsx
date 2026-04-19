@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Nav from "./components/Nav.jsx";
 import { NotificationProvider } from "./components/Notifications.jsx";
 import Hero from "./sections/Hero.jsx";
@@ -10,12 +10,23 @@ import GitHub from "./sections/GitHub.jsx";
 import Writing from "./sections/Writing.jsx";
 import Contact from "./sections/Contact.jsx";
 import Footer from "./sections/Footer.jsx";
-import env from "@env";
+import Editor from "./pages/Editor.jsx";
+import { useConfig } from "./config/ConfigContext.jsx";
+
+const isEditorRoute = () => window.location.hash.startsWith("#/editor");
 
 export default function App() {
-  const { site, assets } = env;
+  const { site, assets } = useConfig();
+  const [editor, setEditor] = useState(isEditorRoute());
 
   useEffect(() => {
+    const onHash = () => setEditor(isEditorRoute());
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+
+  useEffect(() => {
+    if (editor) return;
     document.body.setAttribute("data-accent", site.accent || "teal");
     document.body.setAttribute("data-tex", site.texture || "grid");
     document.body.setAttribute("data-timeline", site.timelineLayout || "horizontal-dots");
@@ -30,7 +41,9 @@ export default function App() {
       }
       link.href = assets.favicon;
     }
-  }, [site, assets]);
+  }, [site, assets, editor]);
+
+  if (editor) return <Editor />;
 
   return (
     <NotificationProvider>

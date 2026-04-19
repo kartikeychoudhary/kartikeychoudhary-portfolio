@@ -1,7 +1,7 @@
-import env from "@env";
+import { useConfig } from "../config/ConfigContext.jsx";
 
 export default function Skills() {
-  const { skills } = env;
+  const { skills } = useConfig();
   if (!skills?.enabled) return null;
 
   const onMove = (e) => {

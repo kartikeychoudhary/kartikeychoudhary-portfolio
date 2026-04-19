@@ -1,9 +1,9 @@
 import Icon from "../components/Icon.jsx";
 import { RichText } from "../utils/richText.jsx";
-import env from "@env";
+import { useConfig } from "../config/ConfigContext.jsx";
 
 export default function Hero() {
-  const { hero, profile, site, assets } = env;
+  const { hero, profile, site, assets } = useConfig();
   if (!hero?.enabled) return null;
 
   const variant = site.heroVariant || "split";
