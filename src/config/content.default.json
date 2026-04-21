@@ -222,6 +222,16 @@
         "accent": [45, 60],
         "image": "/assets/projects/portfolio-1200.jpg",
         "repo": "https://github.com/kartikeychoudhary/kartikeychoudhary-portfolio"
+      },
+      {
+        "role": "Solo · Frontend",
+        "year": "2026",
+        "name": "Reach Me Out",
+        "desc": "Static link-in-bio page on Cloudflare Pages. Profile, theme, and link list are driven from a single `config.yaml` baked into the bundle at build time — no backend, no runtime fetch. Ships with a Docker image that mounts config as a volume for rebuild-free updates.",
+        "stack": ["React", "Vite", "YAML", "Cloudflare Pages", "Docker", "Font Awesome"],
+        "accent": [30, 55],
+        "image": "/assets/projects/reach-me-out-1200.jpg",
+        "repo": "https://github.com/kartikeychoudhary/Reach-me-out"
       }
     ]
   },
