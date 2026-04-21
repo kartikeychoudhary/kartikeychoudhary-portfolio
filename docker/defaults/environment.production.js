@@ -1,12 +1,9 @@
 // =============================================================================
-//  DEVELOPMENT ENVIRONMENT CONFIG
+//  DEFAULT PRODUCTION ENV — shipped inside the Docker image.
 // -----------------------------------------------------------------------------
-//  Portfolio content lives in ./content.default.json (edit via /#/editor and
-//  export). This file layers in environment-specific overrides — the dev title
-//  suffix and a contact-form submission type auto-picked from the VITE_* vars.
-//
-//  If nothing is configured, dev defaults to the `mock` adapter which logs the
-//  payload to the console instead of hitting the network.
+//  The container copies this file into src/config/environment.production.js
+//  at startup when the user has NOT mounted a custom one at
+//  /config/environment.production.js. Override by mounting your own.
 // =============================================================================
 
 import content from "./content.default.json";
@@ -25,10 +22,7 @@ function pickSubmissionType() {
 }
 
 const overrides = {
-  ENV_NAME: "development",
-  site: {
-    title: `${content.site.title} (dev)`,
-  },
+  ENV_NAME: "production",
   contact: {
     form: {
       submission: {
@@ -38,18 +32,18 @@ const overrides = {
           endpoint: env.VITE_WORKER_URL || "",
         },
         lambda: {
-          endpoint: env.VITE_LAMBDA_ENDPOINT || "https://your-lambda-url.lambda-url.us-east-1.on.aws/",
+          endpoint: env.VITE_LAMBDA_ENDPOINT || "",
           headers: { "Content-Type": "application/json" },
         },
         gotify: {
-          endpoint: env.VITE_GOTIFY_ENDPOINT || "https://gotify.example.com/message",
-          token: env.VITE_GOTIFY_TOKEN || "YOUR_APPLICATION_TOKEN",
+          endpoint: env.VITE_GOTIFY_ENDPOINT || "",
+          token: env.VITE_GOTIFY_TOKEN || "",
           priority: Number(env.VITE_GOTIFY_PRIORITY) || 5,
           titleTemplate: env.VITE_GOTIFY_TITLE_TEMPLATE || "Portfolio · {subject}",
           messageTemplate: env.VITE_GOTIFY_MESSAGE_TEMPLATE || "From {name} <{email}>\n\n{message}",
         },
         custom: {
-          endpoint: env.VITE_CUSTOM_ENDPOINT || "https://your-api.example.com/contact",
+          endpoint: env.VITE_CUSTOM_ENDPOINT || "",
           method: env.VITE_CUSTOM_METHOD || "POST",
           headers: { "Content-Type": "application/json" },
         },

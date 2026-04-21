@@ -1,0 +1,172 @@
+{
+  "site": {
+    "title": "Jon Doe — Software Engineer",
+    "accent": "teal",
+    "texture": "grid",
+    "heroVariant": "split",
+    "timelineLayout": "horizontal-dots"
+  },
+  "assets": {
+    "favicon": "/assets/favicon.svg",
+    "resume": "/assets/resume.pdf",
+    "portrait": {
+      "src": "/assets/avatar-1024.jpg",
+      "srcSet": "/assets/avatar-480.jpg 480w, /assets/avatar-768.jpg 768w, /assets/avatar-1024.jpg 1024w",
+      "sizes": "(max-width: 960px) 340px, 420px"
+    },
+    "ogImage": "/assets/og.png"
+  },
+  "profile": {
+    "name": "Jon Doe",
+    "role": "Software Engineer · Full Stack Developer",
+    "handle": "jondoe",
+    "location": "Anywhere, Earth",
+    "availability": "Open to opportunities",
+    "email": "jon.doe@example.com",
+    "phone": "",
+    "social": {
+      "github": "https://github.com/jondoe",
+      "linkedin": "https://www.linkedin.com/in/jondoe/",
+      "x": "",
+      "instagram": "",
+      "mail": "mailto:jon.doe@example.com"
+    },
+    "stats": [
+      { "n": "5", "suffix": "+", "l": "Years shipping" },
+      { "n": "3", "suffix": "",  "l": "Companies" }
+    ]
+  },
+  "nav": {
+    "enabled": true,
+    "links": [
+      { "t": "Skills",     "h": "#skills" },
+      { "t": "Experience", "h": "#experience" },
+      { "t": "Contact",    "h": "#contact" }
+    ],
+    "showResumeButton": true,
+    "showContactButton": true
+  },
+  "hero": {
+    "enabled": true,
+    "eyebrow": "Open to opportunities",
+    "title": {
+      "before": "Software ",
+      "serif": "engineer",
+      "middle": " shipping ",
+      "stroke": "reliable",
+      "after": " products."
+    },
+    "lead": "Hi, I'm **Jon Doe** — I build end-to-end products with modern web stacks. Edit this content by opening `/#/editor` or mounting your own `content.default.json` into the container.",
+    "primaryCta": { "label": "See experience",  "href": "#experience" },
+    "ghostCta":   { "label": "Download résumé", "href": "/assets/resume.pdf" },
+    "chips": [
+      { "tag": "stack", "value": "fullstack",   "pos": "top-l" },
+      { "tag": "ship",  "value": "<products />", "pos": "mid-l" },
+      { "tag": "ok",    "value": "edit me",     "pos": "bot-r" }
+    ]
+  },
+  "skills": {
+    "enabled": true,
+    "eyebrow": "01 — What I work with",
+    "heading": { "before": "A stack chosen for ", "serif": "longevity", "after": "." },
+    "sub": "Replace this placeholder with your own skill groups via /#/editor or by editing the mounted content.default.json.",
+    "items": [
+      {
+        "cat": "Backend",
+        "title": "Languages & frameworks",
+        "tags": [
+          { "t": "Your language", "p": true }, { "t": "Your framework", "p": true }
+        ]
+      },
+      {
+        "cat": "Frontend",
+        "title": "UI & tooling",
+        "tags": [
+          { "t": "Your UI stack", "p": true }, { "t": "Build tool" }
+        ]
+      }
+    ]
+  },
+  "experience": {
+    "enabled": true,
+    "eyebrow": "02 — Where I've shipped",
+    "heading": { "before": "My career & ", "serif": "experience", "after": "." },
+    "sub": "Replace with your real timeline.",
+    "items": [
+      {
+        "company": "Acme Corp", "mark": "A",
+        "role": "Software Engineer",
+        "period": "2023 — Present", "year": "2023 · Now", "location": "Remote",
+        "summary": "Placeholder role — replace with your own experience.",
+        "highlights": ["Shipped things.", "Worked with people.", "Learned a lot."],
+        "stack": ["Stack", "Items", "Here"]
+      }
+    ]
+  },
+  "education": {
+    "enabled": false,
+    "eyebrow": "03 — Foundations",
+    "heading": { "before": "Education & ", "serif": "credentials", "after": "." },
+    "sub": "",
+    "items": []
+  },
+  "projects": {
+    "enabled": true,
+    "eyebrow": "04 — Selected work",
+    "heading": { "before": "Projects I'm ", "serif": "proud", "after": " of." },
+    "sub": "Placeholder projects — edit via /#/editor.",
+    "items": [
+      {
+        "role": "Solo · Full-stack",
+        "year": "2024",
+        "name": "Example Project",
+        "desc": "A short description of what you built and why it mattered.",
+        "stack": ["Stack", "Here"],
+        "accent": [25, 35],
+        "image": "",
+        "repo": "https://github.com/jondoe/example"
+      }
+    ]
+  },
+  "github": {
+    "enabled": false,
+    "eyebrow": "05 — Open source",
+    "heading": { "before": "On ", "serif": "GitHub", "after": ", lately." },
+    "sub": "",
+    "stats": {
+      "repos":    { "val": 0,   "sub": "" },
+      "stars":    { "val": "0", "em": "",  "sub": "" },
+      "contribs": { "val": "0", "sub": "" },
+      "streak":   { "val": 0,   "sub": "" }
+    },
+    "contrib": { "title": "Commit activity · last 12 months", "range": "", "seed": 42 }
+  },
+  "writing": {
+    "enabled": false,
+    "eyebrow": "06 — Writing",
+    "heading": { "before": "Notes from the ", "serif": "build", "after": "." },
+    "allPostsHref": "/blog",
+    "posts": []
+  },
+  "contact": {
+    "enabled": true,
+    "eyebrow": "07 — Get in touch",
+    "heading": { "before": "Let's build something ", "serif": "thoughtful", "after": "." },
+    "lead": "Have a question or want to work together? Drop a note and I'll get back to you.",
+    "links": [
+      { "type": "email",  "lbl": "Email",    "val": "jon.doe@example.com", "href": "mailto:jon.doe@example.com" },
+      { "type": "github", "lbl": "GitHub",   "val": "@jondoe",             "href": "https://github.com/jondoe" },
+      { "type": "map",    "lbl": "Based in", "val": "Anywhere, Earth",     "href": "#" }
+    ],
+    "consent": "I'll only use your email to reply."
+  },
+  "footer": {
+    "enabled": true,
+    "legal": "© 2026 Jon Doe"
+  },
+  "notifications": {
+    "position": "bottom-right",
+    "durationMs": 4500,
+    "maxStack": 3
+  }
+}
