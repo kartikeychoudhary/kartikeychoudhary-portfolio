@@ -5,12 +5,12 @@ corresponding GitHub release. CI is optional — everything below is
 intended to be run by hand from a clean checkout of `main`.
 
 > **Replace before running:**
-> - `DOCKER_USER` → your Docker Hub username (e.g. `kartikeychoudhary`)
+> - `DOCKER_USER` → your Docker Hub username (e.g. `kartikey31choudhary`)
 > - `IMAGE_NAME`  → `portfolio` (or whatever repo name you want on Docker Hub)
 > - `VERSION`     → the version you're cutting, e.g. `v1.0.0`
 
 ```bash
-export DOCKER_USER=kartikeychoudhary
+export DOCKER_USER=kartikey31choudhary
 export IMAGE_NAME=portfolio
 export VERSION=v1.0.0
 ```

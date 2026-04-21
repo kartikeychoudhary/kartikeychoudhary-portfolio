@@ -15,7 +15,7 @@
 
 services:
   portfolio:
-    image: ${PORTFOLIO_IMAGE:-kartikeychoudhary/portfolio:latest}
+    image: ${PORTFOLIO_IMAGE:-kartikey31choudhary/portfolio:latest}
     # Uncomment to build locally instead of pulling.
     # build:
     #   context: .
