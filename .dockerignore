@@ -1,0 +1,21 @@
+.git
+.github
+.gitignore
+.vscode
+.idea
+node_modules
+dist
+.vite
+.wrangler
+.env
+.env.local
+.dev.vars
+.DS_Store
+*.log
+*.zip
+extracted/
+.claude/settings.local.json
+# Keep Dockerfile / compose files out of the image to avoid self-reference noise.
+Dockerfile
+.dockerignore
+docker-compose*.yml

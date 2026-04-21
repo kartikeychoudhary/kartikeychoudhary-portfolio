@@ -1,0 +1,77 @@
+# =============================================================================
+#  Portfolio — docker-compose
+# -----------------------------------------------------------------------------
+#  Pulls the published image from Docker Hub. Mount your own config files into
+#  ./config/ to override the Jon Doe defaults shipped in the image. Everything
+#  under `environment:` is optional — the values shown are the fallbacks the
+#  entrypoint applies when a var is unset or blank.
+#
+#  Quick start:
+#    mkdir -p config public-assets
+#    # (optional) drop your own content.default.json + environment.*.js into config/
+#    docker compose up -d
+#    open http://localhost:8080
+# =============================================================================
+
+services:
+  portfolio:
+    image: ${PORTFOLIO_IMAGE:-kartikeychoudhary/portfolio:latest}
+    # Uncomment to build locally instead of pulling.
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    container_name: portfolio
+    restart: unless-stopped
+    ports:
+      - "${PORTFOLIO_PORT:-8080}:8080"
+    volumes:
+      # Mount your own config here. Missing files fall back to Jon Doe defaults.
+      #   ./config/content.default.json
+      #   ./config/environment.production.js
+      #   ./config/environment.development.js
+      - ./config:/config:ro
+      # Mount your own /public/assets overrides (avatar, résumé, favicon, …).
+      - ./public-assets:/public-assets:ro
+    environment:
+      # ---- Runtime -------------------------------------------------------
+      PORT: "8080"
+      # production | development — picks which env.*.js file Vite loads.
+      BUILD_MODE: "${BUILD_MODE:-production}"
+
+      # ---- Contact form — Cloudflare Turnstile (preferred adapter) ------
+      # If BOTH of these are set, the site uses the `turnstile` adapter.
+      VITE_TURNSTILE_SITE_KEY: "${VITE_TURNSTILE_SITE_KEY:-}"
+      VITE_WORKER_URL:         "${VITE_WORKER_URL:-}"
+
+      # ---- Contact form — fallbacks (used when Turnstile is blank) ------
+      # Force a specific adapter regardless of what else is set:
+      #   turnstile | lambda | gotify | custom | mock
+      VITE_CONTACT_SUBMISSION_TYPE: "${VITE_CONTACT_SUBMISSION_TYPE:-}"
+
+      # Lambda adapter — generic JSON POST to your own backend.
+      VITE_LAMBDA_ENDPOINT: "${VITE_LAMBDA_ENDPOINT:-}"
+
+      # Gotify push-notification adapter.
+      VITE_GOTIFY_ENDPOINT:         "${VITE_GOTIFY_ENDPOINT:-}"
+      VITE_GOTIFY_TOKEN:            "${VITE_GOTIFY_TOKEN:-}"
+      VITE_GOTIFY_PRIORITY:         "${VITE_GOTIFY_PRIORITY:-5}"
+      VITE_GOTIFY_TITLE_TEMPLATE:   "${VITE_GOTIFY_TITLE_TEMPLATE:-Portfolio · {subject}}"
+      VITE_GOTIFY_MESSAGE_TEMPLATE: "${VITE_GOTIFY_MESSAGE_TEMPLATE:-From {name} <{email}>\n\n{message}}"
+
+      # Custom adapter — POST JSON to any URL.
+      VITE_CUSTOM_ENDPOINT: "${VITE_CUSTOM_ENDPOINT:-}"
+      VITE_CUSTOM_METHOD:   "${VITE_CUSTOM_METHOD:-POST}"
+
+      # Resolution order when VITE_CONTACT_SUBMISSION_TYPE is empty:
+      #   1. turnstile  (requires VITE_TURNSTILE_SITE_KEY + VITE_WORKER_URL)
+      #   2. lambda     (requires VITE_LAMBDA_ENDPOINT)
+      #   3. gotify     (requires VITE_GOTIFY_ENDPOINT + VITE_GOTIFY_TOKEN)
+      #   4. custom     (requires VITE_CUSTOM_ENDPOINT)
+      #   5. mock       (console-only; safe default for local experiments)
+
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:8080/ || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
