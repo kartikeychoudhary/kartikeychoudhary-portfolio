@@ -586,7 +586,19 @@ body[data-timeline="stepper"] .tl-item:nth-child(n+4) .rail .node {
 @media (max-width: 640px) {
   .projects-rail { padding: 6px 18px 22px; }
 }
-.projects-rail::-webkit-scrollbar { display: none; width: 0; height: 0; }
+.projects-rail::-webkit-scrollbar {
+  height: 6px;
+  background: transparent;
+}
+.projects-rail::-webkit-scrollbar-track { background: transparent; border-radius: 3px; }
+.projects-rail::-webkit-scrollbar-thumb { background: transparent; border-radius: 3px; }
+/* Reveal the timeline-style scrollbar on hover */
+.projects-rail-wrap:hover .projects-rail {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--glow)/0.4) rgba(255,255,255,0.04);
+}
+.projects-rail-wrap:hover .projects-rail::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+.projects-rail-wrap:hover .projects-rail::-webkit-scrollbar-thumb { background: rgba(var(--glow)/0.4); }
 .projects-rail .project-card {
   flex: 0 0 clamp(280px, 38vw, 460px);
   cursor: pointer;
