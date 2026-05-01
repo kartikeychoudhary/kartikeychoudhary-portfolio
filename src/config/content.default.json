@@ -214,6 +214,19 @@
         "repo": "https://github.com/kartikeychoudhary/life-gauge"
       },
       {
+        "role": "Solo · Full-stack",
+        "year": "2026",
+        "name": "Chhabra Dental",
+        "desc": "A modern dental clinic website with a Cloudflare Worker backend for appointment management, Cloudflare D1 for data storage, and Resend for email notifications. Ships as a responsive web app with a dedicated mobile experience.",
+        "stack": ["React", "Vite", "TypeScript", "Cloudflare Workers", "Cloudflare D1", "Resend"],
+        "accent": [55, 40],
+        "image": "/assets/projects/chhabra-dental-desktop-1200.jpg",
+        "images": [
+          { "src": "/assets/projects/chhabra-dental-desktop-1200.jpg", "label": "Web app" },
+          { "src": "/assets/projects/chhabra-dental-mobile-1200.jpg",  "label": "Mobile web app" }
+        ]
+      },
+      {
         "role": "Solo · Design & build",
         "year": "2026",
         "name": "This site",

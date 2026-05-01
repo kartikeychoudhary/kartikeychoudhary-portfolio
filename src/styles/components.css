@@ -468,6 +468,67 @@ body[data-timeline="stepper"] .tl-item:nth-child(n+4) .rail .node {
   color: var(--accent);
 }
 
+/* Project detail modal — wider, with carousel */
+.modal.project-modal { max-width: 880px; }
+.project-modal .pm-carousel {
+  padding: 18px 28px 6px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.project-modal .pm-stage {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: linear-gradient(135deg, #0c1218 0%, #080b10 100%);
+  overflow: hidden;
+  aspect-ratio: 16/9;
+}
+.project-modal .pm-stage img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: contain;
+  background: #0a0d12;
+  animation: pm-fade .25s ease;
+}
+@keyframes pm-fade { from { opacity: 0; } to { opacity: 1; } }
+.project-modal .pm-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 38px; height: 38px; border-radius: 999px;
+  display: grid; place-items: center;
+  background: rgba(12,16,22,0.85);
+  border: 1px solid var(--line-strong);
+  color: var(--text);
+  backdrop-filter: blur(8px);
+  transition: all .2s ease;
+}
+.project-modal .pm-arrow:hover { color: var(--accent); border-color: rgba(var(--glow)/0.5); }
+.project-modal .pm-arrow.prev { left: 10px; }
+.project-modal .pm-arrow.next { right: 10px; }
+.project-modal .pm-caption {
+  display: flex; justify-content: space-between; align-items: center; gap: 14px;
+  font-family: var(--mono); font-size: 12px; color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+.project-modal .pm-dots { display: flex; gap: 6px; }
+.project-modal .pm-dot {
+  width: 8px; height: 8px; border-radius: 999px;
+  background: rgba(255,255,255,0.18);
+  border: 0; padding: 0;
+  transition: all .2s ease;
+}
+.project-modal .pm-dot.on { background: var(--accent); box-shadow: 0 0 10px rgba(var(--glow)/0.5); }
+.project-modal .pm-dot:hover { background: rgba(var(--glow)/0.6); }
+.project-modal .pm-desc { color: var(--text-dim); font-size: 14px; line-height: 1.6; margin: 0 0 6px; }
+.project-modal .modal-body .cta-row { display: flex; gap: 14px; font-size: 13px; }
+.project-modal .modal-body .cta-row a {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--text-dim);
+}
+.project-modal .modal-body .cta-row a:hover { color: var(--accent); }
+@media (max-width: 600px) {
+  .project-modal .pm-carousel { padding: 14px 16px 4px; }
+  .project-modal .pm-arrow { width: 32px; height: 32px; }
+}
+
 /* ============ Education ============ */
 .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 @media (max-width: 800px) { .edu-grid { grid-template-columns: 1fr; } }
@@ -506,6 +567,36 @@ body[data-timeline="stepper"] .tl-item:nth-child(n+4) .rail .node {
 .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
 @media (max-width: 860px) { .projects-grid { grid-template-columns: 1fr; } }
 
+/* Horizontal scrollable rail (no visible scrollbar) */
+.projects-rail-wrap {
+  position: relative;
+  margin: 0 -28px;
+}
+@media (max-width: 640px) { .projects-rail-wrap { margin: 0 -18px; } }
+.projects-rail {
+  display: flex;
+  gap: 22px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 6px 28px 26px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+@media (max-width: 640px) {
+  .projects-rail { padding: 6px 18px 22px; }
+}
+.projects-rail::-webkit-scrollbar { display: none; width: 0; height: 0; }
+.projects-rail .project-card {
+  flex: 0 0 clamp(280px, 38vw, 460px);
+  cursor: pointer;
+}
+.projects-rail .project-card:focus-visible {
+  outline: none;
+  border-color: rgba(var(--glow)/0.6);
+  box-shadow: 0 0 0 3px rgba(var(--glow)/0.18);
+}
+
 .project-card {
   position: relative;
   border: 1px solid var(--line);
@@ -517,6 +608,12 @@ body[data-timeline="stepper"] .tl-item:nth-child(n+4) .rail .node {
 }
 .project-card:hover { border-color: rgba(var(--glow)/0.4); transform: translateY(-3px); }
 .project-card:hover .project-visual::after { opacity: 1; }
+.project-body .cta-row .open-hint {
+  margin-left: auto;
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--mono); font-size: 12px;
+  color: var(--accent);
+}
 .project-visual {
   position: relative;
   aspect-ratio: 16/9;
