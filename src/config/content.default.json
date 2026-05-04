@@ -214,6 +214,23 @@
         "repo": "https://github.com/kartikeychoudhary/life-gauge"
       },
       {
+        "role": "Solo · Browser extension",
+        "year": "2026",
+        "name": "OnTrackTab",
+        "desc": "Local-first Chrome new tab extension with bookmark-first search, clock, weather, calendar, notes, most-visited sites, draggable widgets, and customizable generated, image, video, or Unsplash wallpapers.",
+        "stack": ["React 18", "TypeScript", "Vite", "Chrome MV3", "react-grid-layout", "lucide-react"],
+        "accent": [62, 34],
+        "image": "/assets/projects/ontracktab/01-home.png",
+        "images": [
+          { "src": "/assets/projects/ontracktab/01-home.png", "label": "Home dashboard" },
+          { "src": "/assets/projects/ontracktab/02-bookmark-search.png", "label": "Bookmark-first search" },
+          { "src": "/assets/projects/ontracktab/03-grid-layout-edit.png", "label": "Editable grid layout" },
+          { "src": "/assets/projects/ontracktab/04-background-settings.png", "label": "Background settings" },
+          { "src": "/assets/projects/ontracktab/05-api-keys.png", "label": "API key settings" }
+        ],
+        "repo": "https://github.com/kartikeychoudhary/OnTrackTab"
+      },
+      {
         "role": "Solo · Full-stack",
         "year": "2026",
         "name": "Chhabra Dental",
